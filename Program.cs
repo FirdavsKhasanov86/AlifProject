@@ -125,10 +125,10 @@ private static int Score{get;set;}
                                 }
 
                                 Console.WriteLine("Семейный статус:");
-                                Console.WriteLine("Если холост то наберте - 1");
-                                Console.WriteLine("Если семянин то наберте - 2");
-                                Console.WriteLine("Если вразводе то наберте - 3");
-                                Console.WriteLine("Если вдовец/вдова то наберте - 4");
+                                Console.WriteLine("Если холост то наберите - 1");
+                                Console.WriteLine("Если семянин то наберите - 2");
+                                Console.WriteLine("Если вразводе то наберите - 3");
+                                Console.WriteLine("Если вдовец/вдова то наберите - 4");
                                 int stat = int.Parse(Console.ReadLine());
                                 if (stat == 1)
                                 {
@@ -157,8 +157,47 @@ private static int Score{get;set;}
                                 Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
                                 int city = int.Parse(Console.ReadLine());
                                 if(city==1){Score++;}
+                                Score++;
 
-                                UpdateUserInfo(Name, SureName, MiddleName, pol, stat, age, city, num, con);
+                                 //UserMoney
+                                    Console.WriteLine("Ввeдите сумму кредита:");
+                                    int sum = int.Parse(Console.ReadLine());
+                                    Console.WriteLine("Введите цель кредита:");
+                                    Console.WriteLine("Если бытовая техника  наберите - 1");
+                                    Console.WriteLine("Если для ремонта наберите - 2");
+                                    Console.WriteLine("Если для телефона наберите - 3");
+                                    Console.WriteLine("Если прочее то наберте - 4");
+                                    int purpose = int.Parse(Console.ReadLine());
+                                    if(purpose==1)
+                                    {
+                                            Score+=2;
+                                    }
+                                    if(purpose==2)
+                                    {
+                                            Score+=1;
+                                    }
+                                    if(purpose==3)
+                                    {
+                                            Score-=1;
+                                    }
+
+
+
+                                    Console.WriteLine("Срок кредита");
+                                    Console.WriteLine("1)6 месяцев");
+                                    Console.WriteLine("2)9 месяцев");
+                                    Console.WriteLine("3)12 месяцев");
+                                    Console.WriteLine("4)24 месяцев");
+                                   Console.WriteLine("Срок:");
+                                   string period=Console.ReadLine();
+                                   System.Console.WriteLine("Write your fuckin salary");
+                                   Console.Write("Salary:");
+                                      double Salary=double.Parse(Console.ReadLine());
+                                if (Salary * 0.8 > sum) { Score += 4; }
+                                if (Salary * 0.8 <= sum && Salary * 1.5 > sum) { Score += 3; }
+                                if (Salary * 1.5 <= sum && Salary * 2.5 >= sum) { Score += 2; }
+                                if (Salary * 2.5 < sum) { Score += 1; }
+                                UpdateUserInfo(Name, SureName, MiddleName, pol, stat, age, city, sum, purpose, period, Salary,num, con);
                                 Console.ForegroundColor = ConsoleColor.White;
                                 break;
                             }
@@ -310,11 +349,11 @@ private static int Score{get;set;}
             int pol = int.Parse(Console.ReadLine());
             if (pol == 1)
             {
-                pol = 1;
+                Score+=1;
             }
             else if (pol == 2)
             {
-                pol = 2;
+                Score += 2;
             }
 
             Console.WriteLine("Семейный статус:");
@@ -325,47 +364,68 @@ private static int Score{get;set;}
             int stat = int.Parse(Console.ReadLine());
             if (stat == 1)
             {
-                stat = 1;
+                Score++;
             }
             else if (stat == 2)
             {
-                stat = 2;
+                Score+=2;
             }
             else if (stat == 3)
             {
-                stat = 3;
+                Score += 1;
             }
             else if (stat == 4)
             {
-                stat = 4;
+                Score+=2;
             }
             Console.WriteLine("Укажите свой возраст:");
             int age = int.Parse(Console.ReadLine());
+            if(age>=26&&age<=35){Score++;}
+            if(age>=36&&age<=62){Score+=2;}
+            if(age>=63){Score++;}
             Console.WriteLine("Если Вы гражданин Таджикистана то наберте - 1:");
             Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
             int city = int.Parse(Console.ReadLine());
 
-            //Money
+            //UserMoney
             Console.WriteLine("Ввeдите сумму кредите:");
             int sum = int.Parse(Console.ReadLine());
             Console.WriteLine("Введите цель кредита:");
-            string purpose = Console.ReadLine();
-            Console.WriteLine("Срок кредита:");
-            string period = Console.ReadLine();
+            Console.WriteLine("Если бытовая техника  наберите - 1");
+            Console.WriteLine("Если для ремонта наберите - 2");
+            Console.WriteLine("Если для телефона наберите - 3");
+            Console.WriteLine("Если прочее то наберте - 4");
+            int purpose = int.Parse(Console.ReadLine());
+            Console.WriteLine("Выберите из ниже следующий список, срок кредита по месяцам:");
+            Console.WriteLine("1. 6 - месяцев");
+            Console.WriteLine("2. 9 - месяцев");
+            Console.WriteLine("3. 12 - месяцев");
+            Console.WriteLine("4. 24 - месяцев");
+            Console.WriteLine("Срок:");
+            string period=Console.ReadLine();
+            System.Console.WriteLine("Введите свою зарплату");
+            Console.Write("Сумма арплату:");
+            double Salary=double.Parse(Console.ReadLine());
+            if (Salary * 0.8 > sum) { Score += 4; }
+            if (Salary * 0.8 <= sum && Salary * 1.5 > sum) { Score += 3; }
+            if (Salary * 1.5 <= sum && Salary * 2.5 >= sum) { Score += 2; }
+            if (Salary * 2.5 < sum) { Score += 1; }
+            
+            InsertAppRegistration(name, last, mid, pol, stat, age, city, sum, purpose, period, Salary,con);
 
-            InsertAppRegistration(name, last, mid, pol, stat, age, city, con);
-
-            static void InsertAppRegistration(string name, string last, string mid, int pol, int stat, int age, int city, SqlConnection con)
+            static void InsertAppRegistration(string name, string last, string mid, int pol, int stat, int age, int city, int sum, int purpose, string period, double Salary, SqlConnection con)
             {
                 con.Open();
-                string insertSqlCommand = string.Format($"insert into UserInformation([FirstName],[LastName],[MiddleName],[Gender_id],[FamilyStatus_id],[Age],[Citizen_id]) Values('{name}','{last}','{mid}',{pol},{stat},{age},'{city}')");
+                string insertSqlCommand = string.Format($"insert into UserInformation([FirstName],[LastName],[MiddleName],[Gender_id],[FamilyStatus_id],[Age],[Citizen_id],[LoanAmount],[PurposeOfLoan_id],[LoanPeriod],[Salary]) Values('{name}','{last}','{mid}',{pol},{stat},{age},'{city}',{sum},{purpose},'{period}',{Salary})");
                 SqlCommand command = new SqlCommand(insertSqlCommand, con);
                 command = new SqlCommand(insertSqlCommand, con);
                 var result = command.ExecuteNonQuery();
                 if (result > 0)
                 {
                     Console.Clear();
+                    
                     Console.WriteLine("Ваша анкeта успешно создана");
+                    Console.WriteLine($"Ваш балл - {Score}");
                     Console.WriteLine("============================");
                     // Console.WriteLine("Зделайте вход для заполнение анкеты: ");
                 }
@@ -419,11 +479,11 @@ private static int Score{get;set;}
         }
 
         //Update
-        static void UpdateUserInfo(string Name, string SureName, string MiddleName, int pol, int stat, int age, int city, int num, SqlConnection con)
+        static void UpdateUserInfo(string Name, string SureName, string MiddleName, int pol, int stat, int age, int city, int sum, int purpose, string period, double Salary, int num, SqlConnection con)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             con.Open();
-            string commandText1 = ($"Update UserInformation set FirstName='{Name}',LastName='{SureName}',MiddleName='{MiddleName}',Gender_id={pol},FamilyStatus_id={stat},Age={age},Citizen_id={city} where id = {num}");
+            string commandText1 = ($"Update UserInformation set FirstName='{Name}',LastName='{SureName}',MiddleName='{MiddleName}',Gender_id={pol},FamilyStatus_id={stat},Age={age},Citizen_id={city}, LoanAmount={sum}, PurposeOfLoan_id={purpose}, LoanPeriod={period}, Salary={Salary} where id = {num}");
             SqlCommand command = new SqlCommand(commandText1, con);
             var result = command.ExecuteNonQuery();
             if (result > 0)
