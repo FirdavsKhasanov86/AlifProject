@@ -1,0 +1,17 @@
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/AlifProject.deps.json
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/AlifProject.runtimeconfig.json
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/AlifProject.runtimeconfig.dev.json
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/AlifProject.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/AlifProject.pdb
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/System.Data.SqlClient.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/runtimes/win-arm64/native/sni.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/runtimes/win-x64/native/sni.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/runtimes/win-x86/native/sni.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+/Users/user/Documents/AlifProject/bin/Debug/netcoreapp3.1/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.csprojAssemblyReference.cache
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.AssemblyInfoInputs.cache
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.AssemblyInfo.cs
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.csproj.CopyComplete
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.dll
+/Users/user/Documents/AlifProject/obj/Debug/netcoreapp3.1/AlifProject.pdb
