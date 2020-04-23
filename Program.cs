@@ -7,7 +7,7 @@ namespace AlifProject
 {
     class Program
     {
-
+private static int Score{get;set;}
         static void Main(string[] args)
         {
             
@@ -114,15 +114,14 @@ namespace AlifProject
                                 string MiddleName = Console.ReadLine();
                                 Console.WriteLine("Введите свой пол - если мужской то нажмите - 1:");
                                 Console.WriteLine("Введите свой пол - если женское то нажмите - 2:");
-
                                 int pol = int.Parse(Console.ReadLine());
                                 if (pol == 1)
                                 {
-                                    pol = 1;
+                                    Score+=1;
                                 }
                                 else if (pol == 2)
                                 {
-                                    pol = 2;
+                                    Score += 2;
                                 }
 
                                 Console.WriteLine("Семейный статус:");
@@ -133,27 +132,31 @@ namespace AlifProject
                                 int stat = int.Parse(Console.ReadLine());
                                 if (stat == 1)
                                 {
-                                    stat = 1;
+                                    Score++;
                                 }
                                 else if (stat == 2)
                                 {
-                                    stat = 2;
+                                    Score+=2;
+
                                 }
                                 else if (stat == 3)
                                 {
-                                    stat = 3;
+                                    Score += 1;
                                 }
                                 else if (stat == 4)
                                 {
-                                    stat = 4;
+                                    Score+=2;
                                 }
                                 Console.WriteLine("Укажите свой возраст:");
                                 int age = int.Parse(Console.ReadLine());
+                               
+                                if(age>=26&&age<=35){Score++;}
+                                if(age>=36&&age<=62){Score+=2;}
+                                if(age>=63){Score++;}
                                 Console.WriteLine("Если Вы гражданин Таджикистана то наберте - 1:");
                                 Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
                                 int city = int.Parse(Console.ReadLine());
-
-
+                                if(city==1){Score++;}
 
                                 UpdateUserInfo(Name, SureName, MiddleName, pol, stat, age, city, num, con);
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -341,6 +344,14 @@ namespace AlifProject
             Console.WriteLine("Если Вы гражданин Таджикистана то наберте - 1:");
             Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
             int city = int.Parse(Console.ReadLine());
+
+            //Money
+            Console.WriteLine("Ввeдите сумму кредите:");
+            int sum = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите цель кредита:");
+            string purpose = Console.ReadLine();
+            Console.WriteLine("Срок кредита:");
+            string period = Console.ReadLine();
 
             InsertAppRegistration(name, last, mid, pol, stat, age, city, con);
 
