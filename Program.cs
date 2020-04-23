@@ -8,6 +8,8 @@ namespace AlifProject
     class Program
     {
 private static int Score{get;set;}
+private static int ID{get;set;}
+
         static void Main(string[] args)
         {
             
@@ -56,12 +58,14 @@ private static int Score{get;set;}
 
                 System.Console.WriteLine("Заполните анкету!");
                 System.Console.WriteLine("1.Aнкетa");
+                System.Console.WriteLine("2.Оформление кредита погошения");
                 string app = Console.ReadLine();
 
                 switch (app)
                 {
 
                     case "1": AppRegistration(con); break;
+                    case "2": Graph(con); break;
                 }
 
             }
@@ -190,8 +194,8 @@ private static int Score{get;set;}
                                     Console.WriteLine("4)24 месяцев");
                                    Console.WriteLine("Срок:");
                                    string period=Console.ReadLine();
-                                   System.Console.WriteLine("Write your fuckin salary");
-                                   Console.Write("Salary:");
+                                   System.Console.WriteLine("Введите свою зарплату");
+                                   Console.Write("Сумма арплату:");
                                       double Salary=double.Parse(Console.ReadLine());
                                 if (Salary * 0.8 > sum) { Score += 4; }
                                 if (Salary * 0.8 <= sum && Salary * 1.5 > sum) { Score += 3; }
@@ -257,8 +261,9 @@ private static int Score{get;set;}
 
         static void InsertRegistration(string name, string last, string mid, int inn, string birth, int login, string pass, SqlConnection con)
         {
+            ID=login;
             con.Open();
-            string insertSqlCommand = string.Format($"insert into Registration([Login],[Password],[FistName],[LastName],[MiddleName],[CustomerID],[BirthDate] ) Values('{login}','{pass}','{name}','{last}','{mid}','{inn}','{birth}')");
+            string insertSqlCommand = string.Format($"insert into Registration([Login],[Password],[FistName],[LastName],[MiddleName],[CustomerID],[BirthDate],[FinishedCredits],[ExpiredCredits] ) Values('{login}','{pass}','{name}','{last}','{mid}','{inn}','{birth}',0,0)");
             SqlCommand command = new SqlCommand(insertSqlCommand, con);
             command = new SqlCommand(insertSqlCommand, con);
             var result = command.ExecuteNonQuery();
@@ -291,6 +296,7 @@ private static int Score{get;set;}
                 x++;
                 Console.Clear();
                 Console.WriteLine("Ваши логин и пароль корректны");
+                ID=login;
             }
             if (x == 0)
             {
@@ -387,7 +393,7 @@ private static int Score{get;set;}
             Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
             int city = int.Parse(Console.ReadLine());
             if(city==1){Score+=1;}
-            Score++;
+            
 
             //UserMoney
             Console.WriteLine("Ввeдите сумму кредите:");
@@ -411,13 +417,13 @@ private static int Score{get;set;}
                 Score-=1;
             }
 
+            
             Console.WriteLine("Выберите из ниже следующий список, срок кредита по месяцам:");
-            Console.WriteLine("1. 6 - месяцев");
-            Console.WriteLine("2. 9 - месяцев");
-            Console.WriteLine("3. 12 - месяцев");
-            Console.WriteLine("4. 24 - месяцев");
+            Console.WriteLine("На сколько месяцев вы хотите брать кредит:");
+            
             Console.WriteLine("Срок:");
             string period=Console.ReadLine();
+            Score++;
             System.Console.WriteLine("Введите свою зарплату");
             Console.Write("Сумма арплату:");
             double Salary=double.Parse(Console.ReadLine());
@@ -425,13 +431,35 @@ private static int Score{get;set;}
             if (Salary * 0.8 <= sum && Salary * 1.5 > sum) { Score += 3; }
             if (Salary * 1.5 <= sum && Salary * 2.5 >= sum) { Score += 2; }
             if (Salary * 2.5 < sum) { Score += 1; }
+            con.Open();
+                                string insert1 = string.Format($"select * from Registration where Login={ID}");
+                                SqlCommand command1 = new SqlCommand(insert1, con);
+                                SqlDataReader reader1 = command1.ExecuteReader();
+                                int closedcredits = 0;
+                                int expired = 0;
+                                while (reader1.Read())
+                                {
+                                    closedcredits = int.Parse(reader1["FinishedCredits"].ToString());
+                                    expired = int.Parse(reader1["ExpiredCredits"].ToString());
+                                }
+                                con.Close();
+                                if (closedcredits == 0) Score--;
+                                if (closedcredits == 1 || closedcredits == 2) Score++;
+                                if (closedcredits >= 3) Score += 2;
+                                if (expired == 4) Score--;
+                                if (expired >= 5 && expired <= 7) Score -= 2;
+                                if (expired > 7) Score -= 3;
             
             InsertAppRegistration(name, last, mid, pol, stat, age, city, sum, purpose, period, Salary,con);
 
             static void InsertAppRegistration(string name, string last, string mid, int pol, int stat, int age, int city, int sum, int purpose, string period, double Salary, SqlConnection con)
             {
                 con.Open();
-                string insertSqlCommand = string.Format($"insert into UserInformation([FirstName],[LastName],[MiddleName],[Gender_id],[FamilyStatus_id],[Age],[Citizen_id],[LoanAmount],[PurposeOfLoan_id],[LoanPeriod],[Salary]) Values('{name}','{last}','{mid}',{pol},{stat},{age},'{city}',{sum},{purpose},'{period}',{Salary})");
+                string insertSqlCommand = string.Format($"insert into UserInformation([FirstName],[LastName],[MiddleName],[Gender_id],[FamilyStatus_id],[Age],[Citizen_id],[LoanAmount],[PurposeOfLoan_id],[LoanPeriod],[Salary],[User_Id],[Status]) Values('{name}','{last}','{mid}',{pol},{stat},{age},'{city}',{sum},{purpose},'{period}',{Salary},{ID},'Decline')");
+                if(Score>=12)
+                {
+                 insertSqlCommand = string.Format($"insert into UserInformation([FirstName],[LastName],[MiddleName],[Gender_id],[FamilyStatus_id],[Age],[Citizen_id],[LoanAmount],[PurposeOfLoan_id],[LoanPeriod],[Salary],[User_Id],[Status]) Values('{name}','{last}','{mid}',{pol},{stat},{age},'{city}',{sum},{purpose},'{period}',{Salary},{ID},'Accepted')");
+                }
                 SqlCommand command = new SqlCommand(insertSqlCommand, con);
                 command = new SqlCommand(insertSqlCommand, con);
                 var result = command.ExecuteNonQuery();
@@ -455,6 +483,27 @@ private static int Score{get;set;}
             }
 
 
+        }
+
+
+
+        //user graph
+        static void Graph(SqlConnection con){
+
+                Console.Clear();
+                con.Open();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                System.Console.WriteLine("Your Credits");
+                Console.ForegroundColor = ConsoleColor.White;
+                string com = string.Format($"select * from UserInformation where User_Id={ID} and Status='Accepted'");
+                SqlCommand command = new SqlCommand(com, con);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                     double valuepermonth = Math.Round(double.Parse(reader["LoanAmount"].ToString()) / int.Parse(reader["LoanPeriod"].ToString()));
+                     System.Console.WriteLine($"You need to pay {valuepermonth} per month {reader["LoanPeriod"].ToString()} monthes. Total:{reader["LoanAmount"].ToString()}");
+                }
+                con.Close();
         }
 
 
@@ -526,6 +575,19 @@ private static int Score{get;set;}
             con.Close();
             Console.ForegroundColor = ConsoleColor.White;
         }
+
+
+
+
+
+
+          
+                                
+
+
+
+
+
 
     }
     
