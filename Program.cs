@@ -386,6 +386,8 @@ private static int Score{get;set;}
             Console.WriteLine("Если Вы гражданин Таджикистана то наберте - 1:");
             Console.WriteLine("Если Вы гражданин другой страны то наберте - 2:");
             int city = int.Parse(Console.ReadLine());
+            if(city==1){Score+=1;}
+            Score++;
 
             //UserMoney
             Console.WriteLine("Ввeдите сумму кредите:");
@@ -396,6 +398,19 @@ private static int Score{get;set;}
             Console.WriteLine("Если для телефона наберите - 3");
             Console.WriteLine("Если прочее то наберте - 4");
             int purpose = int.Parse(Console.ReadLine());
+            if(purpose==1)
+            {
+                Score+=2;
+            }
+            if(purpose==2)
+            {
+               Score+=1;
+            }
+            if(purpose==3)
+            {
+                Score-=1;
+            }
+
             Console.WriteLine("Выберите из ниже следующий список, срок кредита по месяцам:");
             Console.WriteLine("1. 6 - месяцев");
             Console.WriteLine("2. 9 - месяцев");
