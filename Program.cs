@@ -55,18 +55,23 @@ private static int ID{get;set;}
                     }
 
                 }
+              
+                 bool ddd = true;
+                while (ddd){
+                         System.Console.WriteLine("Заполните анкету!");
+                         System.Console.WriteLine("1.Aнкетa");
+                         System.Console.WriteLine("2.Оформление кредита погошения");
+                         string app = Console.ReadLine();
 
-                System.Console.WriteLine("Заполните анкету!");
-                System.Console.WriteLine("1.Aнкетa");
-                System.Console.WriteLine("2.Оформление кредита погошения");
-                string app = Console.ReadLine();
+                     switch (app)
+                     {
 
-                switch (app)
-                {
-
-                    case "1": AppRegistration(con); break;
-                    case "2": Graph(con); break;
+                        case "1": AppRegistration(con); break;
+                        case "2": Graph(con); ddd = false;break;
+                     }
                 }
+
+               
 
             }
             //Admin
@@ -417,8 +422,6 @@ private static int ID{get;set;}
                 Score-=1;
             }
 
-            
-            Console.WriteLine("Выберите из ниже следующий список, срок кредита по месяцам:");
             Console.WriteLine("На сколько месяцев вы хотите брать кредит:");
             
             Console.WriteLine("Срок:");
@@ -469,6 +472,11 @@ private static int ID{get;set;}
                     
                     Console.WriteLine("Ваша анкeта успешно создана");
                     Console.WriteLine($"Ваш балл - {Score}");
+                    if(Score >=12 ){
+                        Console.WriteLine("Ваш кредит одобрен");
+                    }else{
+                        Console.WriteLine("Ваш кредит НЕ одобрен");
+                    }
                     Console.WriteLine("============================");
                     // Console.WriteLine("Зделайте вход для заполнение анкеты: ");
                 }
@@ -514,12 +522,12 @@ private static int ID{get;set;}
             Console.ForegroundColor = ConsoleColor.Green;
             con.Open();
            // string commandText = "Select * from UserInformation";
-            string commandText = $"SELECT * FROM [UserInformation] O  JOIN [Gender] I ON O.Gender_id = I.Id  JOIN [FamilyStat] P ON O.FamilyStatus_id = P.Id Join [Citizen] C On C.Id = O.Citizen_id";
+            string commandText = $"SELECT u.Id, u.FirstName, u.LastName, u.MiddleName, g.Gender, u.Age, f.FamilyStatus, c.Citizen, u.LoanAmount, u.Salary, p.PurposeOfLoan, u.Status FROM UserInformation u join Gender g ON u.Gender_id = g.Id join FamilyStat f ON u.FamilyStatus_id = f.Id join Citizen c ON u.Citizen_id = c.Id join PurposeOfLoan p ON u.PurposeOfLoan_id = p.Id";
             SqlCommand command = new SqlCommand(commandText, con);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                System.Console.WriteLine($"ID:{reader.GetValue("Id")}, FirstName:{reader.GetValue("FirstName")}, LastName:{reader.GetValue("LastName")}, MiddleName:{reader.GetValue("MiddleName")},Gender_id:{reader.GetValue("Gender_id")}, FamilyStatus_id:{reader.GetValue("FamilyStatus_id")},Age:{reader.GetValue("Age")},Citizen_id:{reader.GetValue("Citizen_id")}");
+                System.Console.WriteLine($"ID:{reader.GetValue("Id")}, FirstName:{reader.GetValue("FirstName")}, LastName:{reader.GetValue("LastName")}, MiddleName:{reader.GetValue("MiddleName")},Gender:{reader.GetValue("Gender")}, FamilyStatus:{reader.GetValue("FamilyStatus")},Age:{reader.GetValue("Age")},Citizen:{reader.GetValue("Citizen")}, LoanAmount:{reader.GetValue("LoanAmount")}, Salary:{reader.GetValue("Salary")} ");
             }
             reader.Close();
             Console.ForegroundColor = ConsoleColor.White;
@@ -575,19 +583,6 @@ private static int ID{get;set;}
             con.Close();
             Console.ForegroundColor = ConsoleColor.White;
         }
-
-
-
-
-
-
-          
-                                
-
-
-
-
-
 
     }
     
